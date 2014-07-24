@@ -1,0 +1,7 @@
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# other stuff # 
+secret_keys
