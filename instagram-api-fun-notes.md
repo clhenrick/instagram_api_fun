@@ -22,6 +22,8 @@
    - have map and photos next to each other?
    - add title, nave, footer, other elements...
 
+- look into hacking the Leaflet Tile Layer. [see this code on GitHub](https://github.com/Leaflet/Leaflet/blob/master/src/layer/tile/TileLayer.js#L75)
+
 ## Notes
 
 ### location/search
