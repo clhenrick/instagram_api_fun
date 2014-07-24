@@ -27,19 +27,47 @@
             height: 100%;
             margin: 0;
             padding: 0;            
+            font-size: 10px;
+            background: hsl(185, 50%,90%);
+          }
+
+          header h1 {
+            font-size: 6em;
+            font-family: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;
+            font-weight: 700;
+            text-align: center;
+            text-transform: uppercase;
+
+            background: hsl(100, 50%, 90%);
+
+            /*border-radius: 25px;*/
+
+            padding: 0px 20px;
+            margin: 0;
+          }
+
+          section#container {
+            position: relative;
+            margin: 0 auto;
+            width: 875px;
+            height: 918px;            
           }
 
           #imageCanvas {
-            position: relative;
-            width: 75%;
-            margin: 0 auto;
+            position: relative;            
+            float: left;
+            width: 70%;
+            height: 875px;
+            overflow: auto;
             line-height: 0px;
           }
 
           #map { 
-            margin: 0 auto;
-            height: 100%; 
-            width: 75%; 
+            position: relative;
+            margin-left: 70%;      
+            height: 875px; 
+            width: 30%; 
+            overflow: hidden;
           }
         </style>
 
@@ -48,11 +76,15 @@
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
-        
-        <div id="imageTemplate">
-        </div>
-        <div id="imageCanvas"></div>
-        <div id="map"></div>
+        <section id="container">
+            <header>
+                <h1>Title</h1>
+            </header>
+            <div id="imageTemplate">
+            </div>
+            <div id="imageCanvas"></div>
+            <div id="map"></div>
+        </section>
 
         <!-- JavaScript libraries -->
         <script src="bower_components/jquery/dist/jquery.min.js"></script>        
@@ -72,7 +104,7 @@
 
             function init(){
                 // Leaflet map stuff
-                var map = L.map('map').setView([40.661667, -73.970833], 14);
+                var map = L.map('map').setView([40.661667, -73.970833], 12);
                 L.tileLayer('http://{s}.tiles.mapbox.com/v3/chenrick.io06lf1m/{z}/{x}/{y}.png', {
                     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     maxZoom: 18
