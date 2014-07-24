@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Instagram API fun</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="cleartype" content="on">
+
+        <!-- Browser favicon -->
+        <link rel="shortcut icon" href="favicon.png">
+        
+        <!--  Leaflet Libraries -->
+         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+          <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+        
+        <!-- CSS styles -->
+        <style type="text/css">
+          
+          html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;            
+          }
+
+          #imageCanvas {
+            position: relative;
+            width: 75%;
+            margin: 0 auto;
+            line-height: 0px;
+          }
+
+          #map { 
+            margin: 0 auto;
+            height: 100%; 
+            width: 75%; 
+          }
+        </style>
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <div id="imageTemplate">
+        </div>
+        <div id="imageCanvas"></div>
+        <div id="map"></div>
+
+        <!-- JavaScript libraries -->
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>        
+        <!-- Javascripts -->        
+        <script src="test.js"></script>
+        <script type="text/javascript">        
+            /* 
+
+            TO DO:  
+            - compute bounding box of markers and fit to map area on init
+            - link photos to markers somehow
+            - improve UI: 
+               - map and photos next to each other?
+               - add title, other elements
+            - make Instagram data dynamically update 
+            */
+
+            function init(){
+                // Leaflet map stuff
+                var map = L.map('map').setView([40.661667, -73.970833], 15);
+                L.tileLayer('http://{s}.tiles.mapbox.com/v3/chenrick.io06lf1m/{z}/{x}/{y}.png', {
+                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                    maxZoom: 18
+                }).addTo(map);
+
+              var i=0, 
+                    len = testData.recentlyTaggedMedia.data.length;
+                    
+              for (i; i< len; i++) {
+                var datum = testData.recentlyTaggedMedia.data[i],
+                      image = datum.images.low_resolution;
+                      imageURL = image.url,
+                      imageHeight = image.height + 'px',
+                      imageWidth = image.width + 'px',
+                      lat = null, 
+                      lon = null;
+
+                // check to see if location == true
+                if (datum.location) { 
+                  lat = datum.location.latitude,
+                  lon = datum.location.longitude;
+                  // add Leaflet marker                
+                  var marker = L.marker([lat, lon]).addTo(map);
+                }
+
+                //console.log(testData.recentlyTaggedMedia.data[i]);
+                console.log('lat: ', lat, ' lon: ', lon);
+
+                // to do: replace jquery cloned html with underscore templating.
+                var $clone = $('#imageTemplate').clone();
+                $clone.attr('id','image' + i); 
+                $clone.attr('class', 'gram')          
+                $clone.css("background-image", 'url(' + imageURL + ')');
+                $clone.css('width', imageWidth);
+                $clone.css('height', imageHeight);
+                $clone.data("latLon", {y: lat, x: lon}); // store lat lon data for mapping later
+                //$clone.text($('#image' + i).data("latLon"));
+                $clone.css('display', 'inline-block');  
+                $clone.css('padding', '0');
+                $clone.css('margin', '0');
+                $('#imageCanvas').append($clone);
+
+                //console.log('image.data:', $('#image' + i ).data("latLon"));                
+
+                }
+                // get rid of template when done
+                $('#imageTemplate').remove();
+            }
+
+            window.onLoad(init());
+
+        </script>
+
+    </body>
+</html>
